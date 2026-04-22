@@ -66,12 +66,14 @@ export default function ProfilePage() {
               </button>
             </div>
           ) : (
-            <p className="info-message">
-              Link your Telegram account to control the bot and receive notifications
-            </p>
+            <div>
+              <p className="info-message">
+                Link your Telegram account to control the bot and receive notifications
+              </p>
+            </div>
           )}
 
-          {editing && (
+          {(editing || !user?.telegram_id) && (
             <form onSubmit={handleLinkTelegram} className="telegram-form">
               <div className="form-group">
                 <label>Telegram ID</label>
@@ -99,13 +101,15 @@ export default function ProfilePage() {
                 <button type="submit" className="btn-primary">
                   Save
                 </button>
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  onClick={() => setEditing(false)}
-                >
-                  Cancel
-                </button>
+                {user?.telegram_id && (
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    onClick={() => setEditing(false)}
+                  >
+                    Cancel
+                  </button>
+                )}
               </div>
             </form>
           )}
