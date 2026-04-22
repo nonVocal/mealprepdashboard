@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { pool } from '../lib/db.js';
 import { authMiddleware } from '../middleware/errorHandler.js';
+import { bot } from '../services/telegramBot.js';
 
 const router = Router();
 
@@ -45,7 +46,11 @@ router.get('/commands/history', async (req, res) => {
 router.post('/send-message', async (req, res) => {
   try {
     const userId = (req as any).userId;
-    const { message } = req.body;
+    const { message } = req.body as { message?: string };
+
+    if (!message || !message.trim()) {
+      return res.status(400).json({ error: 'Message is required' });
+    }
 
     // Get user's telegram ID
     const userResult = await pool.query(
@@ -57,15 +62,24 @@ router.post('/send-message', async (req, res) => {
       return res.status(400).json({ error: 'User has not linked Telegram account' });
     }
 
-    // Here you would integrate with your Telegram bot service
-    // For now, just log it
-    console.log(`📱 Message to Telegram ${userResult.rows[0].telegram_id}: ${message}`);
+    const telegramId = userResult.rows[0].telegram_id as string;
+
+    await bot.telegram.sendMessage(telegramId, message.trim());
+
+    await pool.query(
+      'INSERT INTO bot_commands (id, user_id, command) VALUES ($1, $2, $3)',
+      [uuidv4(), userId, `send-message: ${message.trim()}`]
+    );
 
     res.json({ 
       success: true, 
-      message: 'Message sent (requires bot integration)' 
+      message: 'Message sent' 
     });
-  } catch (error) {
+  } catch (error: any) {
+    const description = error?.response?.description as string | undefined;
+    if (description) {
+      return res.status(502).json({ error: `Telegram error: ${description}` });
+    }
     res.status(500).json({ error: 'Failed to send message' });
   }
 });
