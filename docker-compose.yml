@@ -42,6 +42,8 @@ services:
       - "5173:5173"
     environment:
       VITE_API_URL: http://localhost:3001
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
     depends_on:
       - backend
     command: sh -c "yarn install && yarn dev --host 0.0.0.0"
