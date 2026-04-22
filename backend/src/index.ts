@@ -6,6 +6,7 @@ import { initializeRedis } from './lib/redis.js';
 import mealRoutes from './routes/meals.js';
 import userRoutes from './routes/users.js';
 import botRoutes from './routes/bot.js';
+import aiRoutes from './routes/ai.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { startTelegramBot } from './services/telegramBot.js';
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use('/api/meals', mealRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bot', botRoutes);
+app.use('/api/ai', aiRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

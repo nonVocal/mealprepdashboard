@@ -30,6 +30,11 @@ export default function Navigation() {
           </button>
         </li>
         <li>
+          <button onClick={() => navigate('/dashboard/ai')}>
+            🧠 AI Planner
+          </button>
+        </li>
+        <li>
           <button onClick={() => navigate('/dashboard/bot')}>
             🤖 Bot
           </button>

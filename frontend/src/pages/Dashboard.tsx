@@ -6,6 +6,7 @@ import MealsPage from './MealsPage';
 import SchedulePage from './SchedulePage';
 import BotPage from './BotPage';
 import ProfilePage from './ProfilePage';
+import AIPlannerPage from './AIPlannerPage';
 import Navigation from '../components/Navigation';
 import './Dashboard.css';
 
@@ -36,6 +37,7 @@ export default function Dashboard() {
           <Route path="/" element={<MealsPage />} />
           <Route path="/meals" element={<MealsPage />} />
           <Route path="/schedule" element={<SchedulePage />} />
+          <Route path="/ai" element={<AIPlannerPage />} />
           <Route path="/bot" element={<BotPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Routes>

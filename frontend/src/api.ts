@@ -57,4 +57,12 @@ export const botAPI = {
   logCommand: (command: string) => api.post('/api/bot/command', { command }),
 };
 
+export const aiAPI = {
+  chat: (message: string) => api.post('/api/ai/chat', { message }),
+  generateMealPlan: (days: number, goalCalories?: number, preferences?: string) =>
+    api.post('/api/ai/meal-plan', { days, goalCalories, preferences }),
+  generateShoppingList: (days: number) =>
+    api.post('/api/ai/shopping-list', { days }),
+};
+
 export default api;
