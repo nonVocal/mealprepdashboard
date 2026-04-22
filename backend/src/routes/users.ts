@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcryptjs';
 import { pool } from '../lib/db.js';
 import { generateToken } from '../lib/auth.js';
+import { authMiddleware } from '../middleware/errorHandler.js';
 
 const router = Router();
 
@@ -62,7 +63,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Get user profile
-router.get('/profile', async (req, res) => {
+router.get('/profile', authMiddleware, async (req, res) => {
   try {
     const userId = (req as any).userId;
     
@@ -82,15 +83,19 @@ router.get('/profile', async (req, res) => {
 });
 
 // Link Telegram account
-router.post('/link-telegram', async (req, res) => {
+router.post('/link-telegram', authMiddleware, async (req, res) => {
   try {
     const userId = (req as any).userId;
     const { telegramId, telegramUsername } = req.body;
 
-    await pool.query(
+    const result = await pool.query(
       'UPDATE users SET telegram_id = $1, telegram_username = $2 WHERE id = $3',
       [telegramId, telegramUsername, userId]
     );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
     res.json({ message: 'Telegram account linked successfully' });
   } catch (error) {
