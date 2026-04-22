@@ -1,0 +1,112 @@
+.schedule-page {
+  width: 100%;
+}
+
+.schedule-form {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.schedule-form form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.weekly-schedule {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 15px;
+}
+
+.day-column {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.day-column h3 {
+  font-size: 14px;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  font-weight: 700;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.meals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.scheduled-meal {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  font-size: 13px;
+  position: relative;
+}
+
+.meal-type {
+  background-color: #2ecc71;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.meal-name {
+  flex: 1;
+  color: #2c3e50;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-remove {
+  padding: 0;
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e74c3c !important;
+  color: white;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.empty {
+  text-align: center;
+  color: #7f8c8d;
+  padding: 15px 0;
+  font-size: 12px;
+}
+
+@media (max-width: 1024px) {
+  .weekly-schedule {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .weekly-schedule {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .schedule-form form {
+    grid-template-columns: 1fr;
+  }
+}
