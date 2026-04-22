@@ -7,6 +7,7 @@ import mealRoutes from './routes/meals.js';
 import userRoutes from './routes/users.js';
 import botRoutes from './routes/bot.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import { startTelegramBot } from './services/telegramBot.js';
 
 const app = express();
 const PORT = process.env.API_PORT || 3001;
@@ -36,6 +37,14 @@ async function start() {
     
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
+
+      if (process.env.TELEGRAM_BOT_TOKEN) {
+        startTelegramBot().catch((error) => {
+          console.error('❌ Telegram bot failed to start:', error);
+        });
+      } else {
+        console.warn('⚠️ TELEGRAM_BOT_TOKEN is not set; bot is disabled');
+      }
     });
   } catch (error) {
     console.error('Failed to start server:', error);
